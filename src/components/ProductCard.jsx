@@ -1,5 +1,3 @@
-
-
 import {
   Flex,
   Box,
@@ -8,9 +6,12 @@ import {
   Icon,
   chakra,
   Tooltip,
+  useToast,
 } from "@chakra-ui/react";
 import { BsStar, BsStarFill, BsStarHalf } from "react-icons/bs";
 import { FiShoppingCart } from "react-icons/fi";
+import { useDispatch } from "react-redux";
+import { addCart } from "../redux/cartReducer/action";
 
 function Rating({ rating, discountPercentage }) {
   return (
@@ -50,6 +51,32 @@ function ProductCard({
   rating,
   discountPercentage,
 }) {
+  const dispatch = useDispatch();
+  const toast = useToast();
+
+  const handleAddToCart = () => {
+    const payload = {
+      id,
+      thumbnail,
+      images,
+      title,
+      price,
+      brand,
+      rating,
+      discountPercentage,
+    };
+
+    dispatch(addCart(payload));
+    toast({
+      title: `Successful.`,
+      description: `Product added to the cart`,
+      status: "success",
+      duration: 6000,
+      isClosable: true,
+      position: "top",
+    });
+  };
+
   return (
     <Flex p={3} alignItems="center" justifyContent="center">
       <Box
@@ -90,7 +117,12 @@ function ProductCard({
               color={"gray.800"}
               fontSize={"1.2em"}
             >
-              <chakra.a _hover={{ cursor: "pointer" }} display={"flex"} ml={2}>
+              <chakra.a
+                _hover={{ cursor: "pointer" }}
+                display={"flex"}
+                ml={2}
+                onClick={handleAddToCart}
+              >
                 <Icon as={FiShoppingCart} h={7} w={7} alignSelf={"center"} />
               </chakra.a>
             </Tooltip>

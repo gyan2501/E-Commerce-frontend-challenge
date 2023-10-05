@@ -10,31 +10,32 @@ import Navbar from "../components/Navbar";
 const ProductListing = () => {
   const [searchParams] = useSearchParams();
   const location = useLocation();
-const [query, setQuery] = useState("");
+  const [query, setQuery] = useState("");
 
   const dispatch = useDispatch();
   const { products } = useSelector((store) => store.productReducer);
 
   // console.log(location);
-  
 
-  const handleSearch =(e)=>{
-    setQuery(e.target.value)
+  const handleSearch = (e) => {
+    setQuery(e.target.value);
     // console.log(query);
-  }
+  };
 
   let obj = {
     params: {
       category: searchParams.getAll("cat"),
       _sort: searchParams.get("order") && "price",
       _order: searchParams.get("order"),
-      q:query
+      q: query,
     },
   };
 
   useEffect(() => {
     dispatch(getProducts(obj));
-  }, [location.search,query]);
+  }, [location.search, query]);
+
+  
 
   return (
     <>

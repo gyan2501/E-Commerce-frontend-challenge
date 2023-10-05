@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 
 import {
   Box,
@@ -15,17 +15,34 @@ import {
   Input,
   InputGroup,
   InputLeftElement,
+  Text,
 } from "@chakra-ui/react";
 import { AiOutlineShoppingCart } from "react-icons/ai";
 import { SearchIcon } from "@chakra-ui/icons";
+import { Link } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { getCart } from "../redux/cartReducer/action";
 
 export default function Navbar({ handleSearch }) {
+  const dispatch = useDispatch();
+
+  const { cart } = useSelector((store) => store.cartReducer);
+
+  console.log(cart);
+
+
+  useEffect(() => {
+    dispatch(getCart());
+  }, [dispatch]);
+
   return (
     <>
       <Box bg={useColorModeValue("gray.100", "gray.900")} px={4}>
         <Flex h={16} alignItems={"center"} justifyContent={"space-between"}>
           <HStack spacing={8} alignItems={"center"}>
-            <Box>E-Com</Box>
+            <Link to={"/"}>
+              <Box>E-Com</Box>
+            </Link>
           </HStack>
           <Box>
             <InputGroup>
@@ -36,9 +53,14 @@ export default function Navbar({ handleSearch }) {
             </InputGroup>
           </Box>
           <Flex alignItems={"center"} justifyContent={"space-between"}>
-            <Button variant="outline" mr={2}>
-              <AiOutlineShoppingCart size={25} />
-            </Button>
+            <Link to={"/cart"}>
+              <Button variant="outline" mr={2}>
+                <AiOutlineShoppingCart size={25} />
+                <Text fontSize="md" h={5} w={5}>
+                  {cart.length}
+                </Text>
+              </Button>
+            </Link>
             <Button variant={"solid"} colorScheme={"teal"} size={"sm"} mr={4}>
               Sign Up
             </Button>
