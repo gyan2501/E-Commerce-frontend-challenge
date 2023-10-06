@@ -74,16 +74,17 @@ function CartCard({
     
     <Card
       direction={{ base: "column", sm: "row" }}
-      overflow="hidden"
+     
       variant="outline"
       mb={2}
      size={"lg"}
     >
       <Image
-        objectFit="cover"
+       
         maxW={{ base: "100%", sm: "250px" }}
         src={thumbnail}
         alt="Caffe Latte"
+        
       />
 
       <Stack>

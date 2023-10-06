@@ -78,7 +78,7 @@ const ShoppingCart = () => {
               mb={3}
             >
               <Heading as="h5" size="md">
-                Total:
+                Total ({cart.length} Items) :
               </Heading>
               <Heading as="h5" size="md">
                 {(subTotal + subTotal * Tax).toFixed(2)}
