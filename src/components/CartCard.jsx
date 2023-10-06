@@ -63,7 +63,7 @@ function CartCard({
     toast({
       title: `Item Deleted.`,
       description: `Product removed from cart`,
-      status: "success",
+      status: "info",
       duration: 6000,
       isClosable: true,
       position: "top",

@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 
 import {
   Box,
@@ -27,13 +27,22 @@ export default function Navbar({ handleSearch }) {
   const dispatch = useDispatch();
 
   const { cart } = useSelector((store) => store.cartReducer);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  // console.log(cart);
 
-  console.log(cart);
-
+  const token = localStorage.getItem("token");
 
   useEffect(() => {
     dispatch(getCart());
   }, [dispatch]);
+
+  useEffect(() => {
+    if (token) {
+      setIsLoggedIn(true);
+    } else {
+      setIsLoggedIn(false);
+    }
+  }, []);
 
   return (
     <>
@@ -41,7 +50,7 @@ export default function Navbar({ handleSearch }) {
         <Flex h={16} alignItems={"center"} justifyContent={"space-between"}>
           <HStack spacing={8} alignItems={"center"}>
             <Link to={"/"}>
-              <Box>E-Com</Box>
+              <Box fontWeight={"extrabold"} fontSize={"20px"}>E-Shop</Box>
             </Link>
           </HStack>
           <Box>
@@ -49,7 +58,7 @@ export default function Navbar({ handleSearch }) {
               <InputLeftElement pointerEvents="none">
                 <SearchIcon color="gray.300" />
               </InputLeftElement>
-              <Input placeholder="Search Products..." onChange={handleSearch} />
+              <Input placeholder="Search Products..." onChange={handleSearch} bgColor={"white"} />
             </InputGroup>
           </Box>
           <Flex alignItems={"center"} justifyContent={"space-between"}>
@@ -61,31 +70,34 @@ export default function Navbar({ handleSearch }) {
                 </Text>
               </Button>
             </Link>
-            <Button variant={"solid"} colorScheme={"teal"} size={"sm"} mr={4}>
-              Sign Up
-            </Button>
-            <Menu>
-              <MenuButton
-                as={Button}
-                rounded={"full"}
-                variant={"link"}
-                cursor={"pointer"}
-                minW={0}
-              >
-                <Avatar
-                  size={"sm"}
-                  src={
-                    "https://t3.ftcdn.net/jpg/03/62/56/24/360_F_362562495_Gau0POzcwR8JCfQuikVUTqzMFTo78vkF.jpg"
-                  }
-                />
-              </MenuButton>
-              <MenuList>
-                <MenuItem>Profile</MenuItem>
+            {isLoggedIn ? (
+              <Menu>
+                <MenuButton
+                  as={Button}
+                  rounded={"full"}
+                  variant={"link"}
+                  cursor={"pointer"}
+                  minW={0}
+                >
+                  <Avatar
+                    size={"sm"}
+                    src={
+                      "https://t3.ftcdn.net/jpg/03/62/56/24/360_F_362562495_Gau0POzcwR8JCfQuikVUTqzMFTo78vkF.jpg"
+                    }
+                  />
+                </MenuButton>
+                <MenuList>
+                  <MenuItem>Profile</MenuItem>
 
-                <MenuDivider />
-                <MenuItem>Logout</MenuItem>
-              </MenuList>
-            </Menu>
+                  <MenuDivider />
+                  <MenuItem>Logout</MenuItem>
+                </MenuList>
+              </Menu>
+            ) : (
+              <Button variant={"solid"} colorScheme={"teal"} size={"sm"} mr={4}>
+                Sign Up
+              </Button>
+            )}
           </Flex>
         </Flex>
       </Box>

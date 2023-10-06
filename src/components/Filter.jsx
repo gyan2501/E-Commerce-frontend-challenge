@@ -51,6 +51,7 @@ const Filters = () => {
       bg={useColorModeValue("white", "gray.800")}
       w={"15%"}
       pr={5}
+      display={{ base: "none", md: "none", lg: "block" }}
     >
       <Text
         my="1rem"

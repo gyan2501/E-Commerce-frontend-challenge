@@ -1,4 +1,4 @@
-import { Flex, Grid } from "@chakra-ui/react";
+import { Flex, Grid, HStack, Skeleton, Stack } from "@chakra-ui/react";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getProducts } from "../redux/productReducer/action";
@@ -14,8 +14,10 @@ const ProductListing = () => {
 
   const dispatch = useDispatch();
   const { products } = useSelector((store) => store.productReducer);
+  const { isLoading } = useSelector((store) => store.productReducer);
+  const { isError } = useSelector((store) => store.productReducer);
 
-  // console.log(location);
+  console.log(isLoading);
 
   const handleSearch = (e) => {
     setQuery(e.target.value);
@@ -51,9 +53,48 @@ const ProductListing = () => {
           }}
           gap={2}
         >
-          {products?.map((el, i) => (
-            <ProductCard key={i} {...el} />
-          ))}
+          
+          {isLoading
+          ? [...Array(20).keys()].map((el) => {
+              return (
+                <Stack key={el} width={"100%"} m={3}>
+                  <Skeleton
+                    height={{ base: "320px", md: "320px" }}
+                    width={{ base: "280px", md: "280px" }}
+                    borderRadius={"md"}
+                  />
+                  <HStack >
+                    <Skeleton
+                      height="16px"
+                      h={"20px"}
+                      w={"70%"}
+                      borderRadius={"md"}
+                    />
+                    <Skeleton
+                      height="16px"
+                      w={"20%"}
+                      h={"30px"}
+                      borderRadius={"md"}
+                    />
+                  </HStack>
+                  <HStack >
+                    <Skeleton
+                      height="16px"
+                      h={"20px"}
+                      w={"70%"}
+                      borderRadius={"md"}
+                    />
+                    <Skeleton
+                      height="16px"
+                      w={"20%"}
+                      h={"20px"}
+                      borderRadius={"md"}
+                    />
+                  </HStack>
+                </Stack>
+              );
+            })
+          : products?.map((el,i) => <ProductCard key={i} {...el} />)}
         </Grid>
       </Flex>
     </>

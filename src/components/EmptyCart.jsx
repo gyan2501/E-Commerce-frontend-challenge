@@ -29,7 +29,7 @@ const EmptyCart = () => {
           gap={"10px"}
           mb={"50px"}
         >
-          <Button colorScheme="yellow">
+          <Button colorScheme="yellow" mr={2}>
             {" "}
             <Link to="/">Browse Products</Link>
           </Button>

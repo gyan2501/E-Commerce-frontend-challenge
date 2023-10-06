@@ -1,10 +1,11 @@
 import React, { useEffect } from "react";
 import Navbar from "../components/Navbar";
-import { Box, Divider, Flex, Heading, VStack } from "@chakra-ui/react";
+import { Box, Button, Divider, Flex, Heading, VStack } from "@chakra-ui/react";
 import { getCart } from "../redux/cartReducer/action";
 import { useDispatch, useSelector } from "react-redux";
 import CartCard from "../components/CartCard";
 import EmptyCart from "../components/EmptyCart";
+import { Link } from "react-router-dom";
 
 const ShoppingCart = () => {
   const dispatch = useDispatch();
@@ -18,7 +19,6 @@ const ShoppingCart = () => {
 
   const Tax = 0.18;
 
-  // console.log(`Total Price: ₹${totalPrice}`);
   useEffect(() => {
     dispatch(getCart());
   }, []);
@@ -26,7 +26,11 @@ const ShoppingCart = () => {
   return (
     <>
       <Navbar />
-      <Flex p={10} justifyContent={"space-evenly"}   flexDirection={{ base: "column", md: "row" }}>
+      <Flex
+        p={10}
+        justifyContent={"space-evenly"}
+        flexDirection={{ base: "column", md: "row" }}
+      >
         <Box gap={2}>
           {cart.length > 0 ? (
             cart.map((el, i) => <CartCard key={i} {...el} />)
@@ -34,7 +38,7 @@ const ShoppingCart = () => {
             <EmptyCart />
           )}
         </Box>
-        <Box w={{ base: "100%", sm: "300px" }}>
+        <Box w={{ base: "100%", md: "25%" }}>
           <VStack
             align={"flex-start"}
             border={"1px solid grey"}
@@ -81,6 +85,16 @@ const ShoppingCart = () => {
               </Heading>
             </Flex>
           </VStack>
+          <Link to={"/checkout"}>
+            <Button
+              w={"100%"}
+              mt={5}
+              colorScheme="green"
+              isDisabled={cart.length === 0}
+            >
+              Checkout
+            </Button>
+          </Link>
         </Box>
       </Flex>
     </>
