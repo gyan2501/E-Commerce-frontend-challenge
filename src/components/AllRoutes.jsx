@@ -4,6 +4,7 @@ import ProductListing from "../pages/ProductListing";
 import Checkout from "../pages/Checkout";
 import ShoppingCart from "../pages/ShoppingCart";
 import PaymentSuccess from "./PaymentSuccess";
+import Authentication from "../pages/Authentication";
 
 const AllRoutes = () => {
   return (
@@ -12,6 +13,7 @@ const AllRoutes = () => {
       <Route path="/cart" element={<ShoppingCart />} />
       <Route path="/checkout" element={<Checkout />} />
       <Route path="/paymentsuccess" element={<PaymentSuccess/>} />
+      <Route path="/authentication" element={<Authentication />}></Route>
     </Routes>
   );
 };

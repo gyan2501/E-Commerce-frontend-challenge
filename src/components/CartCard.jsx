@@ -10,6 +10,7 @@ import {
   Text,
   CardFooter,
   Button,
+  Spacer,
 } from "@chakra-ui/react";
 import { BsStar, BsStarFill, BsStarHalf } from "react-icons/bs";
 
@@ -71,26 +72,21 @@ function CartCard({
   };
 
   return (
-    
     <Card
       direction={{ base: "column", sm: "row" }}
-     
       variant="outline"
       mb={2}
-     size={"lg"}
+      size={"sm"}
     >
       <Image
-       
         maxW={{ base: "100%", sm: "250px" }}
         src={thumbnail}
         alt="Caffe Latte"
-        
       />
 
       <Stack>
         <CardBody>
-          <Heading size="md">{title}</Heading>
-
+          <Heading size="md">{title} <Text as={"span"} visibility={"hidden"} >LOream hiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiii</Text></Heading>
           <Text py="2">Brand: {brand}</Text>
           <Rating rating={rating} discountPercentage={discountPercentage} />
           <Box fontSize="2xl" color={useColorModeValue("gray.800", "white")}>

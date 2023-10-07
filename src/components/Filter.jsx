@@ -1,7 +1,7 @@
 import { Checkbox, CheckboxGroup } from "@chakra-ui/checkbox";
 import { Box, Flex, Stack, Text } from "@chakra-ui/layout";
 import { Radio, RadioGroup } from "@chakra-ui/radio";
-import { useColorModeValue } from "@chakra-ui/react";
+import { Button, useColorModeValue } from "@chakra-ui/react";
 import React, { useEffect, useState } from "react";
 import { useSearchParams } from "react-router-dom";
 
@@ -13,6 +13,9 @@ const Filters = () => {
   const [cat, setCat] = useState(intialCat || []);
   const initialOrder = searchParams.get("order");
   const [order, setOrder] = useState(initialOrder || "");
+
+  const initialBrand = searchParams.getAll("brand");
+  const [brand, setBrand] = useState(initialBrand || []);
 
   const handleChangeCategory = (e) => {
     console.log(e.target.value);
@@ -30,20 +33,41 @@ const Filters = () => {
     // console.log(cat);
   };
 
+  const handleBrands = (e) => {
+    console.log(e.target.value);
+
+    let newBrand = [...brand];
+    const values = e.target.value;
+
+    if (newBrand.includes(values)) {
+      newBrand = newBrand.filter((el) => el !== values);
+    } else {
+      newBrand.push(values);
+    }
+
+    setBrand(newBrand);
+    // console.log(cat);
+  };
+
   const handleSort = (e) => {
     console.log(e.target.value);
     setOrder(e.target.value);
   };
 
+  const handleReset=()=>{
+    setSearchParams("")
+  }
+
   useEffect(() => {
     let params = {
       cat,
+      brand,
     };
 
     order && (params.order = order);
 
     setSearchParams(params);
-  }, [cat, order,setSearchParams]);
+  }, [cat, order, brand]);
 
   return (
     <Box
@@ -59,7 +83,7 @@ const Filters = () => {
         textTransform={"uppercase"}
         fontSize="1rem"
       >
-        Filter
+        Filter <Box as="span"> <Button h={"30px"} ml={5} w={"60px"} colorScheme="red" onClick={handleReset}>Reset</Button></Box>
       </Text>
 
       <Text
@@ -71,7 +95,7 @@ const Filters = () => {
         Sort By Price
       </Text>
 
-      <RadioGroup>
+      <RadioGroup defaultValue={order}>
         <Stack
           mb={8}
           onChange={handleSort}
@@ -96,59 +120,35 @@ const Filters = () => {
         >
           Categories
         </Text>
-        <CheckboxGroup>
+        <CheckboxGroup defaultValue={cat}>
           <Stack spacing={"1"} color="gray.500" textTransform={"capitalize"}>
             <Flex flexDir={"column"}>
-              <Checkbox
-                value={"smartphones"}
-                onChange={handleChangeCategory}
-                isChecked={cat.includes("smartphones")}
-              >
+              <Checkbox value={"smartphones"} onChange={handleChangeCategory}>
                 smartphones
               </Checkbox>
-              <Checkbox
-                value="laptops"
-                onChange={handleChangeCategory}
-                isChecked={cat.includes("laptops")}
-              >
+              <Checkbox value="laptops" onChange={handleChangeCategory}>
                 laptops
               </Checkbox>
             </Flex>
 
             <Flex flexDir={"column"}>
-              <Checkbox
-                value="fragrances"
-                onChange={handleChangeCategory}
-                isChecked={cat.includes("fragrances")}
-              >
+              <Checkbox value="fragrances" onChange={handleChangeCategory}>
                 fragrances
               </Checkbox>
             </Flex>
 
             <Flex flexDir={"column"}>
-              <Checkbox
-                value="skincare"
-                onChange={handleChangeCategory}
-                isChecked={cat.includes("skincare")}
-              >
+              <Checkbox value="skincare" onChange={handleChangeCategory}>
                 skincare
               </Checkbox>
             </Flex>
             <Flex flexDir={"column"}>
-              <Checkbox
-                value="groceries"
-                onChange={handleChangeCategory}
-                isChecked={cat.includes("groceries")}
-              >
+              <Checkbox value="groceries" onChange={handleChangeCategory}>
                 groceries
               </Checkbox>
             </Flex>
             <Flex flexDir={"column"}>
-              <Checkbox
-                value="home-decoration"
-                onChange={handleChangeCategory}
-                isChecked={cat.includes("home-decoration")}
-              >
+              <Checkbox value="home-decoration" onChange={handleChangeCategory}>
                 home-decor
               </Checkbox>
             </Flex>
@@ -156,84 +156,40 @@ const Filters = () => {
         </CheckboxGroup>
       </Box>
       <Box>
-        {/* <Text my="1rem" fontWeight={"bold"} fontSize="0.95rem">
+        <Text my="1rem" fontWeight={"bold"} fontSize="0.95rem">
           BRAND
         </Text>
-        <CheckboxGroup>
+        <CheckboxGroup defaultValue={brand} value={brand}>
           <Stack spacing={"1"} color="gray.500">
-            <Checkbox
-              value="Apple"
-              onChange={handleChangeCategory}
-              isChecked={brand.includes("Apple")}
-            >
+            <Checkbox value="Apple" onChange={handleBrands}>
               Apple
             </Checkbox>
-            <Checkbox
-              value="Samsung"
-              onChange={handleChangeCategory}
-              isChecked={brand.includes("Samsung")}
-            >
+            <Checkbox value="Samsung" onChange={handleBrands}>
+              {" "}
               Samsung
             </Checkbox>
-            <Checkbox
-              value="OPPO"
-              onChange={handleChangeCategory}
-              isChecked={brand.includes("OPPO")}
-            >
+            <Checkbox value="OPPO" onChange={handleBrands}>
               OPPO
             </Checkbox>
-            <Checkbox
-              value="Huawei"
-              onChange={handleChangeCategory}
-              isChecked={brand.includes("Huawei")}
-            >
+            <Checkbox value="Huawei" onChange={handleBrands}>
               Huawei
             </Checkbox>{" "}
-            <Checkbox
-              value="HP Pavilion"
-              onChange={handleChangeCategory}
-              isChecked={brand.includes("HP Pavilion")}
-            >
+            <Checkbox value="HP Pavilion" onChange={handleBrands}>
               HP Pavilion
             </Checkbox>
-            <Checkbox
-              value="Microsoft Surface"
-              onChange={handleChangeCategory}
-              isChecked={brand.includes("Microsoft Surface")}
-            >
+            <Checkbox value="Microsoft Surface" onChange={handleBrands}>
               Microsoft Surface
             </Checkbox>
-            <Checkbox
-              value="Boho Decor"
-              onChange={handleChangeCategory}
-              isChecked={brand.includes("Boho Decor")}
-            >
+            <Checkbox value="Boho Decor" onChange={handleBrands}>
               Boho Decor
             </Checkbox>
-            <Checkbox
-              value="Saaf & Khaas"
-              onChange={handleChangeCategory}
-              isChecked={brand.includes("Saaf & Khaas")}
-            >
+            <Checkbox value="Saaf & Khaas" onChange={handleBrands}>
               Saaf & Khaas
             </Checkbox>
           </Stack>
-        </CheckboxGroup> */}
+        </CheckboxGroup>
       </Box>
-      <Box>
-        {/* <Text my="1rem" fontWeight={"bold"} fontSize="0.95rem">
-          Rating
-        </Text>
-        <RadioGroup>
-          <Stack direction="column" color={"gray.500"}>
-            <Radio value="5">5 </Radio>
-            <Radio value="4">4</Radio>
-            <Radio value="3">3</Radio>
-            <Radio value="2">2</Radio>
-            <Radio value="1">1</Radio>
-          </Stack>
-        </RadioGroup> */}
-      </Box>
+      
     </Box>
   );
 };
