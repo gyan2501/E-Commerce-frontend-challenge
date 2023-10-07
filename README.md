@@ -10,8 +10,7 @@ This is a simple e-commerce website built using React, Chakra UI, Redux, and Rea
 - [Installation](#installation)
 - [Usage](#usage)
 - [Technologies Used](#technologies-used)
-- [Contributing](#contributing)
-- [License](#license)
+
 
 ## Description
 
